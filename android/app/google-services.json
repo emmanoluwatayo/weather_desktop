@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "989229633801",
+    "project_id": "weather-desktop-b4af3",
+    "storage_bucket": "weather-desktop-b4af3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989229633801:android:cba012ba87f9475f9ec3d8",
+        "android_client_info": {
+          "package_name": "com.example.weather_desktop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABUHg7RFB_eJ79kHt5PgeqTLMqAMpqy8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
