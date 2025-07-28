@@ -1,20 +1,28 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_desktop/core/constants/app_colors.dart';
 import 'package:weather_desktop/core/constants/app_fonts.dart';
+import 'package:weather_desktop/core/constants/router.dart';
+import 'package:weather_desktop/core/network/api_response.dart';
+import 'package:weather_desktop/data/providers/auth/sign_out_notifier.dart';
 import 'package:weather_desktop/gen/assets.gen.dart';
 import 'package:weather_desktop/presentation/screens/favorites/favorites_screen.dart';
 import 'package:weather_desktop/presentation/screens/home/home_screen.dart';
 import 'package:weather_desktop/presentation/screens/settings/settings_screen.dart';
+import 'package:weather_desktop/presentation/utilities/are_you_sure_dialog.dart';
+import 'package:weather_desktop/utilities/loading.dart';
+import 'package:weather_desktop/utilities/toast_info.dart';
 
-class NavigationPage extends StatefulWidget {
+class NavigationPage extends ConsumerStatefulWidget {
   const NavigationPage({super.key});
 
   @override
-  State<NavigationPage> createState() => _NavigationPageState();
+  ConsumerState<NavigationPage> createState() => _NavigationPageState();
 }
 
-class _NavigationPageState extends State<NavigationPage> {
+class _NavigationPageState extends ConsumerState<NavigationPage> {
   PageController pageController = PageController();
   SideMenuController sideMenu = SideMenuController();
 
@@ -28,8 +36,44 @@ class _NavigationPageState extends State<NavigationPage> {
     super.initState();
   }
 
+  logout() async {
+    final notifier = ref.read(signOutNotifierProvider.notifier);
+    await notifier.signOut();
+  }
+
+  logoutDialog() {
+    areYouSureDialog(
+      title: 'Logout',
+      content: 'Are you sure you want to logout?',
+      context: context,
+      action: logout,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen<SignOutState>(signOutNotifierProvider, (previous, next) {
+      if (next.processingStatus == ProcessingStatus.waiting) {
+        context.showLoader();
+      } else {
+        context.hideLoader();
+      }
+
+      if (next.processingStatus == ProcessingStatus.error) {
+        toastInfo(msg: 'Oops! ${next.error.errorMsg}', status: Status.error);
+      }
+
+      if (next.processingStatus == ProcessingStatus.success) {
+        // toastInfo(
+        //   msg: 'Success! Account creation completed. You can now log in.',
+        //   status: Status.completed,
+        // );
+
+        context.go(AppRouter.login);
+      }
+    });
+
+    // final signOutState = ref.watch(signOutNotifierProvider);
     return Scaffold(
       body: Row(
         children: [
@@ -127,13 +171,14 @@ class _NavigationPageState extends State<NavigationPage> {
                   onTap: (index, _) => sideMenu.changePage(index),
                 ),
                 SideMenuItem(
-                  title: 'Settings',
-                  icon: const Icon(Icons.settings),
+                  title: 'Profile',
+                  icon: const Icon(Icons.person),
                   onTap: (index, _) => sideMenu.changePage(index),
                 ),
-                const SideMenuItem(
+                SideMenuItem(
                   title: 'Exit',
                   icon: Icon(Icons.exit_to_app),
+                  onTap: (index, _) => logoutDialog(),
                 ),
               ],
             ),

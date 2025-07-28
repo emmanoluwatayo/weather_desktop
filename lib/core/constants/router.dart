@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather_desktop/presentation/screens/entry_screen.dart';
+import 'package:weather_desktop/presentation/screens/forget_password/forget_password.dart';
 import 'package:weather_desktop/presentation/screens/login/login_screen.dart';
 import 'package:weather_desktop/presentation/screens/navigation_page/navigation_page.dart';
+import 'package:weather_desktop/presentation/screens/registration/complete_registration.dart';
 import 'package:weather_desktop/presentation/screens/registration/registration_screen.dart';
 
 class AppRouter {
@@ -10,12 +12,14 @@ class AppRouter {
   static const String splash = '/entryScreen';
   static const String login = '/login';
   static const String register = '/register';
+  static const String completeRegistration = '/completeRegistration';
   static const String home = '/home';
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String about = '/about';
   static const String contact = '/contact';
   static const String terms = '/terms';
+  static const String forgotPassword = '/forgotPassword';
   static const String navigationPage = '/navigationPage';
 
   // GoRouter Instance
@@ -37,6 +41,18 @@ class AppRouter {
         path: login,
         builder:
             (BuildContext context, GoRouterState state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: completeRegistration,
+        builder:
+            (BuildContext context, GoRouterState state) =>
+                const CompleteRegistration(),
+      ),
+      GoRoute(
+        path: forgotPassword,
+        builder:
+            (BuildContext context, GoRouterState state) =>
+                const ForgotPasswordScreen(),
       ),
       GoRoute(
         path: navigationPage,

@@ -64,6 +64,14 @@ dependencies:
   firebase_core: ^3.13.0
   firebase_auth: ^5.5.3
   cloud_firestore: ^5.6.7
+  google_sign_in: ^7.0.0
+  firebase_analytics: ^11.5.2
+  firebase_storage: ^12.4.7
+  flutter_hooks: ^0.21.2
+  loader_overlay: ^5.0.0
+  flutter_spinkit: ^5.2.1
+  country_state_city_picker: ^1.2.8
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:
