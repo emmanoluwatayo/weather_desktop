@@ -4,7 +4,9 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:weather_desktop/core/dio/dio_provider.dart';
 import 'package:weather_desktop/infrastructure/authentication/authser.dart';
+import 'package:weather_desktop/infrastructure/weather/weather_service.dart';
 import 'package:weather_desktop/presentation/utilities/utils.dart';
 
 final firebaseAuthProvider = Provider<fb_auth.FirebaseAuth>((ref) {
@@ -38,3 +40,8 @@ final userDetailsProvider = StreamProvider<Map<String, dynamic>>((ref) {
   return ref.watch(authServiceProvider).fetchUserDetails();
 });
 
+// Weather service provider
+final weatherServiceProvider = Provider<WeatherService>((ref) {
+  final dio = ref.read(dioClientProvider);
+  return WeatherService(dioClient: dio);
+});

@@ -190,15 +190,6 @@ class AuthService {
     }
   }
 
-  // Future<void> _uploadImageBytes(
-  //     Reference storageRef, Uint8List imageBytes) async {
-  //   await storageRef.putData(imageBytes);
-  // }
-
-  // Future<void> _uploadImageFile(Reference storageRef, File imageFile) async {
-  //   await storageRef.putFile(imageFile);
-  // }
-
   Future<void> forgotPassword({required String emailAddress}) async {
     try {
       await firebaseAuth.sendPasswordResetEmail(email: emailAddress);
